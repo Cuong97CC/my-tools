@@ -5,6 +5,12 @@
         <span class="input-group-text">View height</span>
       </div>
       <input type="number" max="750" min="250" class="form-control form-control-sm" [(ngModel)]="editor_height">
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <input type="checkbox" aria-label="Checkbox for following text input" [(ngModel)]="live_demo">
+          <span class="ml-2">Live demo</span>
+        </div>
+      </div>
       <button class="btn btn-sm btn-outline-secondary ml-1" (click)="split_mode = !split_mode">
         <span *ngIf="!split_mode" class="fa fa-window-maximize"></span>
         <span *ngIf="split_mode" class="fa fa-columns"></span>
@@ -25,10 +31,12 @@
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="html">
-        <ngx-monaco-editor [options]="htmlEditorOptions" [(ngModel)]="html" [ngStyle]="{'height.px': checkHeight() - 42}"></ngx-monaco-editor>
+        <ngx-monaco-editor [(ngModel)]="html" [ngStyle]="{'height.px': checkHeight() - 42}"
+        [options]="htmlEditorOptions" (ngModelChange)="refreshView(live_demo)"></ngx-monaco-editor>
       </div>
       <div role="tabpanel" class="tab-pane" id="css">
-        <ngx-monaco-editor [options]="cssEditorOptions" [(ngModel)]="css" [ngStyle]="{'height.px': checkHeight() - 42}"></ngx-monaco-editor>
+        <ngx-monaco-editor [(ngModel)]="css" [ngStyle]="{'height.px': checkHeight() - 42}"
+        [options]="cssEditorOptions" (ngModelChange)="refreshView(live_demo)"></ngx-monaco-editor>
       </div>
     </div>
   </div>
@@ -42,20 +50,24 @@
       <li class="nav-item">
         <a class="nav-link" href="#css" aria-controls="css" role="tab" data-toggle="tab">Css</a>
       </li>
+      <li *ngIf="!live_demo" class="nav-item ml-auto">
+        <button class="btn btn-success btn-load" (click)="refreshView(true)"><i class="fa fa-refresh"></i></button>
+      </li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
       <div role="tabpanel" class="tab-pane active" id="html">
-        <ngx-monaco-editor [options]="htmlEditorOptions" [(ngModel)]="html" [ngStyle]="{'height.px': checkHeight() - 42}"></ngx-monaco-editor>
+          <ngx-monaco-editor [(ngModel)]="html" [ngStyle]="{'height.px': checkHeight() - 42}"
+          [options]="htmlEditorOptions" (ngModelChange)="refreshView(live_demo)"></ngx-monaco-editor>
       </div>
       <div role="tabpanel" class="tab-pane" id="css">
-        <ngx-monaco-editor [options]="cssEditorOptions" [(ngModel)]="css" [ngStyle]="{'height.px': checkHeight() - 42}"></ngx-monaco-editor>
+          <ngx-monaco-editor [(ngModel)]="css" [ngStyle]="{'height.px': checkHeight() - 42}"
+          [options]="cssEditorOptions" (ngModelChange)="refreshView(live_demo)"></ngx-monaco-editor>
       </div>
     </div>
   </div>
 
   <div class="col-md">
-    <div class="html-view overflow-auto" [ngStyle]="{'height.px': checkHeight()}" [innerHtml]="sanitizer.bypassSecurityTrustHtml(html)"></div>
-    <div [innerHtml]="getCss()"></div>
+    <iframe [attr.srcdoc]="view" [ngStyle]="{'height.px': checkHeight()}" style="width: 100%"></iframe>
   </div>
 </div>

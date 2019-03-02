@@ -13,10 +13,18 @@ export class HtmlViewComponent implements OnInit {
   css = "";
   editor_height = 300;
   split_mode = true;
+  view: SafeHtml;
+  root_styles: String = "";
+  live_demo = false;
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
+    let styles = document.getElementsByTagName('head')[0].getElementsByTagName('style');
+    for (let i = 0; i < styles.length; i++) {
+      this.root_styles += styles[i].outerHTML;
+    }
+    this.refreshView(true);
   }
 
   checkHeight() {
@@ -25,8 +33,8 @@ export class HtmlViewComponent implements OnInit {
     return this.editor_height;
   }
 
-  getCss() {
-    let view: SafeHtml = this.sanitizer.bypassSecurityTrustHtml("<style>" + this.css + "</style>");
-    return view;
+  refreshView(refresh) {
+    if (!refresh) return;
+    this.view = this.sanitizer.bypassSecurityTrustHtml(`<html><head>${this.root_styles}</head><body>${this.html}<style>${this.css}</style><body></html>`);
   }
 }

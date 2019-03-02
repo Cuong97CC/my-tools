@@ -14,7 +14,9 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+
 export const apiUrl: string = "http://localhost:8080";
+// export const apiUrl: string = "https://my-tools-server.herokuapp.com";
 export const hostName: string = getHostName();
 
 function getHostName(): string {
