@@ -3,8 +3,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
 import { tags } from '../../../environments/environment';
-import { StockChart } from 'angular-highcharts';
-import { Options } from 'highcharts';
 
 declare var $ :any;
 
@@ -29,7 +27,6 @@ export class ChartComponent implements OnInit {
   bills: any;
   total_cost = 0;
   tags: any;
-  stock: StockChart;
 
   constructor(
     private toastr: ToastrService,

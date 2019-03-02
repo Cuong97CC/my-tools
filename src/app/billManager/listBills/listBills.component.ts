@@ -3,6 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
 import { tags } from '../../../environments/environment';
+import * as moment from 'moment';
 
 declare var $ :any;
 
@@ -25,7 +26,7 @@ export class ListBillsComponent implements OnInit {
   maxDate: Date;
   bsConfig: any;
   message: String;
-  bills: any;
+  bills: any = [];
   total_cost = 0;
   tags: any;
 
@@ -92,15 +93,27 @@ export class ListBillsComponent implements OnInit {
   }
 
   filter() {
+    this.from_time = this.resetTimeToStart(this.from_time);
+    this.to_time = this.resetTimeToStart(this.to_time);
     this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
         if (this.bills.length > 0) {
           let costs = this.bills.map(val => val.cost);
+          this.bills.forEach(bill => {
+            bill.time = moment(new Date(bill.time)).format("DD/MM/YYYY");
+          });
           this.total_cost = costs.reduce(this.add);
         } else this.total_cost = 0;
       }
     });
+  }
+
+  resetTimeToStart(date: Date) {
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    return date;
   }
 
   add(accumulator, a) {
