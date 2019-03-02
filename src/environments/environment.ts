@@ -14,3 +14,13 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+export const apiUrl: string = "http://localhost:8080";
+export const hostName: string = getHostName();
+
+function getHostName(): string {
+  if (location.port != "80") {
+    return 'http://' + location.hostname + ':' + location.port;
+  } else {
+    return 'https://' + location.hostname;
+  }
+}

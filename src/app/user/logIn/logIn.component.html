@@ -1,0 +1,15 @@
+<form style="border:1px solid #ccc">
+  <div class="imgcontainer">
+    <img src="assets/images/img_avatar.png" alt="Avatar" class="avatar">
+  </div>
+
+  <div class="container">
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter Email" name="email" [(ngModel)]="email" required>
+
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" [(ngModel)]="password" required>
+    <span *ngIf="message" class="text-danger" [innerText]="message"></span>
+    <button type="submit" (click)="logIn()">Login</button>
+  </div>
+</form>

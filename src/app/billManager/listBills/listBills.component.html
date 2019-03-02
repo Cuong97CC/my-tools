@@ -1,0 +1,103 @@
+<div class="container">
+  <div class="row">
+    <div class="input-group input-group-sm d-flex">
+      <div class="align-self-center small">Thời gian: </div>
+      <input type="text"
+        placeholder="Chọn tháng"
+        class="form-control ml-1 mr-2"
+        bsDatepicker
+        [(ngModel)]="month_filter"
+        [bsConfig]="bsConfig"
+        [maxDate]="maxDate">
+        <div class="align-self-center small">Loại: </div>
+        <select class="form-control ml-1" [(ngModel)]="tag_filter">
+          <option value="">Tất cả</option>
+          <option value="Đi lại">Đi lại</option>
+          <option value="Ăn uống">Ăn uống</option>
+          <option value="Nhà ở">Nhà ở</option>
+          <option value="Đồ dùng">Đồ dùng</option>
+        </select>
+        <button class="btn btn-primary btn-sm ml-1" (click)="filter()"><i class="fa fa-filter"></i> Lọc</button>
+        <button class="btn btn-success btn-sm ml-1" (click)="openModal(template)"><i class="fa fa-plus"></i> Thêm chi tiêu</button>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col">
+      <div class="mb-2"><h3 class="font-weight-bold">Tổng chi tiêu: {{total_cost}} đồng</h3></div>
+      <div class="table-responsive" *ngIf="bills && bills.length > 0">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Ngày</th>
+              <th>Loại</th>
+              <th>Số tiền (đồng)</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let bill of bills; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{bill.day}}</td>
+              <td>{{bill.tag}}</td>
+              <td>{{bill.cost}}</td>
+              <td title="{{bill.details}}">
+                <span class="bill-details">{{bill.details}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="!bills || bills.length == 0" class="text-center">Chưa có chi tiêu nào trong thời gian này!</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal create bill -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm chi tiêu</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="form">
+        <div class="form-group">
+          <label for="email">Loại chi tiêu<span class="text-danger">*</span>:</label>
+          <select class="form-control" [(ngModel)]="tag" placeholder="Chọn loại chi tiêu">
+            <option value="Đi lại">Đi lại</option>
+            <option value="Ăn uống">Ăn uống</option>
+            <option value="Nhà ở">Nhà ở</option>
+            <option value="Đồ dùng">Đồ dùng</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="details">Chi tiết:</label>
+          <input type="text" class="form-control" placeholder="Nhập chi tiết" name="details" [(ngModel)]="details">
+        </div>
+        <div class="form-group">
+          <label for="cost">Số tiền<span class="text-danger">*</span>:</label>
+          <input type="number" min="0" class="form-control" placeholder="Nhập số tiền" name="cost" [(ngModel)]="cost">
+        </div>
+        <div class="form-group">
+          <label for="date">Ngày<span class="text-danger">*</span>:</label>
+          <input type="text"
+            placeholder="Chọn ngày"
+            class="form-control"
+            bsDatepicker
+            [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}"
+            [maxDate]="maxDate"
+            placement="top"
+            [(ngModel)]="date">
+        </div>
+        <span *ngIf="message" class="text-danger" [innerText]="message"></span>
+        <div class="d-flex justify-content-around mt-2">
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Hủy</button>
+          <button type="submit" class="btn btn-primary" (click)="createBill()">Tạo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
