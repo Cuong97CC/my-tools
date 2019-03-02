@@ -11,8 +11,12 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" routerLink="/htmlView">HTML</a>
       </li>
-      <li *ngIf="currentUser" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="/billManage">Quản lý chi tiêu</a>
+      <li *ngIf="currentUser" routerLinkActive="active" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quản lý chi tiêu</a>
+        <div class="dropdown-menu" aria-labelledby="aboutDropdown">
+          <a class="dropdown-item" routerLink="/billManage/listBills">Thống Kê</a>
+          <a class="dropdown-item" routerLink="/billManage/chart">Biểu đồ</a>
+        </div>
       </li>
     </ul>
     <ul *ngIf="!currentUser" class="navbar-nav">

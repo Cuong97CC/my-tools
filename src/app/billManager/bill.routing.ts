@@ -2,11 +2,16 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ListBillsComponent } from './listBills/listBills.component';
+import { ChartComponent } from './chart/chart.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ListBillsComponent,
+    path: 'listBills',
+    component: ListBillsComponent
+  },
+  {
+    path: 'chart',
+    component: ChartComponent
   }
 ];
 

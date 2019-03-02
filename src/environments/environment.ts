@@ -18,6 +18,7 @@ export const environment = {
 export const apiUrl: string = "http://localhost:8080";
 // export const apiUrl: string = "https://my-tools-server.herokuapp.com";
 export const hostName: string = getHostName();
+export const tags = ['Đi lại', 'Ăn uống', 'Nhà ở', 'Đồ dùng', 'Game'];
 
 function getHostName(): string {
   if (location.port != "80") {
