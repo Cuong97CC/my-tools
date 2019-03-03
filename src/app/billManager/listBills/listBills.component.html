@@ -7,16 +7,14 @@
         class="form-control ml-1 mr-2"
         bsDatepicker
         [(ngModel)]="from_time"
-        [bsConfig]="bsConfig"
-        [maxDate]="maxDate">
+        [bsConfig]="bsConfig">
       <div class="align-self-center small">Đến: </div>
         <input type="text"
           placeholder="Chọn ngày"
           class="form-control ml-1 mr-2"
           bsDatepicker
           [(ngModel)]="to_time"
-          [bsConfig]="bsConfig"
-          [maxDate]="maxDate">
+          [bsConfig]="bsConfig">
         <div class="align-self-center small">Loại: </div>
         <select class="form-control ml-1" [(ngModel)]="tag_filter">
           <option value="">Tất cả</option>
@@ -96,7 +94,7 @@
         <span *ngIf="message" class="text-danger" [innerText]="message"></span>
         <div class="d-flex justify-content-around mt-2">
           <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Hủy</button>
-          <button type="submit" class="btn btn-primary" (click)="createBill()">Tạo</button>
+          <button type="submit" class="btn btn-primary" [class.disabled]="processing" (click)="createBill()">Tạo</button>
         </div>
       </div>
     </div>

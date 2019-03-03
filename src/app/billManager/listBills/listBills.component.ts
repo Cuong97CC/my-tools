@@ -29,6 +29,7 @@ export class ListBillsComponent implements OnInit {
   bills: any = [];
   total_cost = 0;
   tags: any;
+  processing = false;
 
   constructor(
     private toastr: ToastrService,
@@ -67,7 +68,7 @@ export class ListBillsComponent implements OnInit {
   }
 
   createBill() {
-    if (this.currentUser) {
+    if (this.currentUser && !this.processing) {
       if (this.tag && this.cost && this.date) {
         let data = {
           tag: this.tag,
@@ -75,14 +76,21 @@ export class ListBillsComponent implements OnInit {
           cost: this.cost,
           time: this.date.getTime()
         }
+        this.processing = true;
         this.billsService.createBill(data, this.token).subscribe(res => {
           if (res.code == 1) {
             this.toastr.success(res.message);
             this.hideModal();
             this.initBillForm();
+            let time = new Date(res.data.new_bill.time);
+            if (time >= this.from_time && time <= this.to_time) {
+              res.data.new_bill.time = moment(new Date(time)).format("DD/MM/YYYY");
+              this.bills.push(res.data.new_bill);
+            }
           } else {
             this.toastr.error(res.message);
           }
+          this.processing = false;
         })
       } else {
         this.message = "Vui lòng nhập đầy đủ thông tin";
@@ -93,8 +101,8 @@ export class ListBillsComponent implements OnInit {
   }
 
   filter() {
-    this.from_time = this.resetTimeToStart(this.from_time);
-    this.to_time = this.resetTimeToStart(this.to_time);
+    this.from_time = this.setTimeInHour(this.from_time, 0, 0, 0);
+    this.to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
     this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
@@ -109,10 +117,10 @@ export class ListBillsComponent implements OnInit {
     });
   }
 
-  resetTimeToStart(date: Date) {
-    date.setHours(0);
-    date.setMinutes(0);
-    date.setSeconds(0);
+  setTimeInHour(date: Date, hour, minute, second) {
+    date.setHours(hour);
+    date.setMinutes(minute);
+    date.setSeconds(second);
     return date;
   }
 
