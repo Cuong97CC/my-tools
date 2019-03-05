@@ -80,6 +80,7 @@ export class ListBillsComponent implements OnInit {
   createBill() {
     if (this.currentUser && !this.processing) {
       if (this.tag && this.cost && this.date) {
+        this.date = this.setTimeInHour(this.date, 11, 0, 0);
         let data = {
           tag: this.tag,
           details: this.details,
