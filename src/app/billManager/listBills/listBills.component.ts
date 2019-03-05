@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
 import { tags } from '../../../environments/environment';
@@ -13,6 +14,7 @@ declare var $ :any;
   styleUrls: ['./listBills.component.css']
 })
 export class ListBillsComponent implements OnInit {
+  private sub: any;
   modalRef: BsModalRef;
   token: String;
   currentUser: any;
@@ -32,6 +34,8 @@ export class ListBillsComponent implements OnInit {
   processing = false;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private billsService: BillsService,
     private modalService: BsModalService
@@ -39,8 +43,6 @@ export class ListBillsComponent implements OnInit {
     this.bsConfig = {
       dateInputFormat: 'DD/MM/YYYY',
     }
-    this.from_time = new Date();
-    this.to_time = new Date();
     this.tag_filter = "";
     this.tags = tags;
   }
@@ -48,8 +50,20 @@ export class ListBillsComponent implements OnInit {
   ngOnInit() {
     this.token = localStorage.getItem('token');
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.sub = this.route.queryParams.subscribe(params => {
+      if (params['from_time']) this.from_time = new Date(params['from_time']);
+      else this.from_time = new Date();
+      if (params['to_time']) this.to_time = new Date(params['to_time']);
+      else this.to_time = new Date();
+    });
+    this.from_time = new Date();
+    this.to_time = new Date();
     this.maxDate = new Date();
     this.filter();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   initBillForm() {
@@ -61,10 +75,6 @@ export class ListBillsComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
-  }
-
-  hideModal() {
-    this.modalService.hide(1);
   }
 
   createBill() {
@@ -80,7 +90,7 @@ export class ListBillsComponent implements OnInit {
         this.billsService.createBill(data, this.token).subscribe(res => {
           if (res.code == 1) {
             this.toastr.success(res.message);
-            this.hideModal();
+            this.modalService.hide(1);
             this.initBillForm();
             let time = new Date(res.data.new_bill.time);
             if (time >= this.from_time && time <= this.to_time) {
@@ -106,13 +116,13 @@ export class ListBillsComponent implements OnInit {
     this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
+        this.total_cost = 0;
         if (this.bills.length > 0) {
-          let costs = this.bills.map(val => val.cost);
           this.bills.forEach(bill => {
             bill.time = moment(new Date(bill.time)).format("DD/MM/YYYY");
+            this.total_cost += bill.cost;
           });
-          this.total_cost = costs.reduce(this.add);
-        } else this.total_cost = 0;
+        }
       }
     });
   }
@@ -122,9 +132,5 @@ export class ListBillsComponent implements OnInit {
     date.setMinutes(minute);
     date.setSeconds(second);
     return date;
-  }
-
-  add(accumulator, a) {
-    return accumulator + a;
   }
 }

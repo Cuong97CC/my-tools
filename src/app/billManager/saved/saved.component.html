@@ -1,0 +1,82 @@
+<div class="container">
+    <div class="row my-3">
+      <div class="col">
+        <div *ngIf="!data">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="data">
+          <div class="mb-2"><h3 class="font-weight-bold">Tiết kiệm được: {{total_saved}} đồng</h3></div>
+          <div class="table-responsive" *ngIf="data && data.length > 0">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Năm</th>
+                  <th>Tháng</th>
+                  <th>Lương</th>
+                  <th>Đã tiêu</th>
+                  <th>Còn lại</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let el of data; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{el.year}}</td>
+                  <td>{{el.month}}</td>
+                  <td>
+                    {{el.amount || 0}}
+                    <button class="btn btn-sm btn-link" (click)="updateSalaryModal(i)">
+                      <span class="fa fa-pencil"></span>
+                    </button>
+                  </td>
+                  <td>{{el.totalConsumption || 0}}</td>
+                  <td>{{(el.amount || 0) - (el.totalConsumption || 0)}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="data.length == 0" class="text-center">Chưa có dữ liệu!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal create bill -->
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Cập nhật lương</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="container">
+        <div class="form">
+          <div class="form-group">
+            <label for="date">Tháng<span class="text-danger"></span>:</label>
+            <input type="text"
+              placeholder="Chọn ngày"
+              class="form-control"
+              [isDisabled]="true"
+              bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'MM-YYYY', BsDatepickerViewMode: 'month' }"
+              placement="top"
+              [(ngModel)]="editting_data.time" disabled>
+          </div>
+          <div class="form-group">
+            <label for="amount">Số tiền<span class="text-danger">*</span>:</label>
+            <input type="number" min="0" class="form-control" placeholder="Nhập số tiền" name="amount" [(ngModel)]="editting_data.amount">
+          </div>
+          <span *ngIf="message" class="text-danger" [innerText]="message"></span>
+          <div class="d-flex justify-content-around mt-2">
+            <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Hủy</button>
+            <button type="submit" class="btn btn-primary" [class.disabled]="processing" (click)="updateSalary()">Cập nhật</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>

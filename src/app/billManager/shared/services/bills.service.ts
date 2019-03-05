@@ -19,13 +19,13 @@ export class BillsService {
     return this.httpHelper.post("/api/money/createBill", data, params, token);
   }
 
-  getSalary(month, year, token) {
-    let params = new HttpParams().set("month", month).set("year", year);
-    return this.httpHelper.get("/api/salary/getSalary", params, token);
+  getSalaryAndConsumption(token) {
+    let params = new HttpParams();
+    return this.httpHelper.get("/api/salary/analyze", params, token);
   }
 
   setSalary(data, month, year, token) {
     let params = new HttpParams().set("month", month).set("year", year);
-    return this.httpHelper.post("/api/salary/setSalary", data, params, token);
+    return this.httpHelper.post("/api/salary", data, params, token);
   }
 }

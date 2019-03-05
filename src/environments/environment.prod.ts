@@ -5,7 +5,7 @@ export const environment = {
 export const apiUrl: string = "https://my-tools-server.herokuapp.com";
 export const internetConnection = navigator.onLine;
 export const hostName: string = getHostName();
-export const tags = ['Đi lại', 'Ăn uống', 'Nhà ở', 'Đồ dùng', 'Game'];
+export const tags = ['Đi lại', 'Ăn uống', 'Nhà ở', 'Đồ dùng', 'Game', 'Khác'];
 
 function getHostName(): string {
   if (location.port != "80") {

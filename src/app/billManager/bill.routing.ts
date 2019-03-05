@@ -2,7 +2,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ListBillsComponent } from './listBills/listBills.component';
-import { ChartComponent } from './chart/chart.component';
+import { SavedComponent } from './saved/saved.component';
 
 const routes: Routes = [
   {
@@ -10,8 +10,8 @@ const routes: Routes = [
     component: ListBillsComponent
   },
   {
-    path: 'chart',
-    component: ChartComponent
+    path: 'saved',
+    component: SavedComponent
   }
 ];
 

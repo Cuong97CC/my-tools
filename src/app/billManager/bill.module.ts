@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { routing } from './bill.routing';
 //component
 import { ListBillsComponent } from './listBills/listBills.component';
-import { ChartComponent } from './chart/chart.component';
+import { SavedComponent } from './saved/saved.component';
 
 import { BillsService } from './shared/services/bills.service';
 
@@ -17,7 +17,7 @@ import { BillsService } from './shared/services/bills.service';
   ],
   declarations: [
     ListBillsComponent,
-    ChartComponent
+    SavedComponent
   ],
   providers: [
     BillsService
