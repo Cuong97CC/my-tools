@@ -33,10 +33,6 @@ export class SavedComponent implements OnInit {
     this.billsService.getSalaryAndConsumption(this.token).subscribe(res => {
       if (res.code == 1) {
         this.data = res.data;
-        this.total_saved = 0;
-        this.data.forEach(element => {
-          this.total_saved += (element.amount || 0) - (element.totalConsumption || 0);
-        });
       } else {
         this.toastr.error(res.message);
       }
@@ -63,6 +59,14 @@ export class SavedComponent implements OnInit {
           this.processing = false;
         })
     } else this.message = "Dữ liệu không hợp lệ"
+  }
+
+  totalSaved() {
+    let total_saved = 0;
+    this.data.forEach(element => {
+      total_saved += (element.amount || 0) - (element.totalConsumption || 0);
+    });
+    return total_saved;
   }
 
   openModal(template: TemplateRef<any>) {
