@@ -6,7 +6,7 @@ import { BillsService } from '../shared/services/bills.service';
 import { tags } from '../../../environments/environment';
 import * as moment from 'moment';
 
-declare var $ :any;
+declare var bootbox :any;
 
 @Component({
   selector: 'list-bills',
@@ -123,6 +123,37 @@ export class ListBillsComponent implements OnInit {
           });
         }
       }
+    });
+  }
+
+  confirmDeleteBill(id) {
+    bootbox.confirm({
+      message: "Bạn chắc chắc chắn muốn xóa chi tiêu này?",
+      buttons: {
+        confirm: {
+            label: "Xác nhận",
+            className: 'btn-primary'
+        },
+        cancel: {
+            label: "Hủy",
+            className: 'btn-secondary'
+        }
+      },
+      callback: (result) => {
+        if (result) {
+          this.deleteBill(id);
+        }
+      }
+    });
+  }
+
+  deleteBill(id) {
+    this.billsService.deleteBill(id, this.token).subscribe(res => {
+      if (res.code == 1) {
+        let index = this.bills.findIndex(val => val._id == id);
+        if (index > -1) this.bills.splice(index, 1);
+        this.toastr.success(res.message);
+      } else this.toastr.error(res.message);
     });
   }
 

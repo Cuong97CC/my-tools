@@ -36,6 +36,7 @@
               <th>Loại</th>
               <th>Số tiền (đồng)</th>
               <th>Chi tiết</th>
+              <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -46,6 +47,11 @@
               <td>{{bill.cost}}</td>
               <td title="{{bill.details}}">
                 <span class="bill-details">{{bill.details}}</span>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-link" (click)="confirmDeleteBill(bill._id)" title="Xóa chi tiêu">
+                  <span class="fa fa-trash"></span>
+                </button>
               </td>
             </tr>
           </tbody>

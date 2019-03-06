@@ -19,6 +19,11 @@ export class BillsService {
     return this.httpHelper.post("/api/money/createBill", data, params, token);
   }
 
+  deleteBill(id, token) {
+    let params = new HttpParams().set("id", id);
+    return this.httpHelper.delete("/api/money", params, token);
+  }
+
   getSalaryAndConsumption(token) {
     let params = new HttpParams();
     return this.httpHelper.get("/api/salary/analyze", params, token);
