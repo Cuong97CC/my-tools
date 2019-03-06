@@ -6,6 +6,7 @@ import { routing } from './bill.routing';
 //component
 import { ListBillsComponent } from './listBills/listBills.component';
 import { SavedComponent } from './saved/saved.component';
+import { SalaryComponent } from './salary/salary.component';
 
 import { BillsService } from './shared/services/bills.service';
 
@@ -17,7 +18,8 @@ import { BillsService } from './shared/services/bills.service';
   ],
   declarations: [
     ListBillsComponent,
-    SavedComponent
+    SavedComponent,
+    SalaryComponent
   ],
   providers: [
     BillsService

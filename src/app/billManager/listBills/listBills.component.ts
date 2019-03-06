@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
 import { tags } from '../../../environments/environment';
@@ -35,7 +35,6 @@ export class ListBillsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private toastr: ToastrService,
     private billsService: BillsService,
     private modalService: BsModalService
@@ -56,8 +55,6 @@ export class ListBillsComponent implements OnInit {
       if (params['to_time']) this.to_time = new Date(params['to_time']);
       else this.to_time = new Date();
     });
-    this.from_time = new Date();
-    this.to_time = new Date();
     this.maxDate = new Date();
     this.filter();
   }
@@ -80,6 +77,7 @@ export class ListBillsComponent implements OnInit {
   createBill() {
     if (this.currentUser && !this.processing) {
       if (this.tag && this.cost && this.date) {
+        // Temporary fix timezone bug in server
         this.date = this.setTimeInHour(this.date, 11, 0, 0);
         let data = {
           tag: this.tag,

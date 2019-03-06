@@ -1,7 +1,9 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
+import { BsDatepickerConfig, BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 
 @Component({
   selector: 'saved',
@@ -20,7 +22,14 @@ export class SavedComponent implements OnInit {
   message: String;
   processing = false;
 
+  bsValue: Date = new Date(2017, 7);
+  minMode: BsDatepickerViewMode = 'month';
+
+  bsConfig: Partial<BsDatepickerConfig>;
+
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private toastr: ToastrService,
     private billsService: BillsService,
     private modalService: BsModalService
@@ -30,9 +39,22 @@ export class SavedComponent implements OnInit {
   ngOnInit() {
     this.token = localStorage.getItem('token');
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.bsConfig = Object.assign({}, {
+      minMode : this.minMode,
+      dateInputFormat: 'MM-YYYY'
+    });
     this.billsService.getSalaryAndConsumption(this.token).subscribe(res => {
       if (res.code == 1) {
         this.data = res.data;
+        this.data.sort((a, b) => {
+          if (a.year > b.year) return 1;
+          else if (a.year < b.year) return -1;
+          else {
+            if (a.month > b.month) return 1;
+            else if (a.month < b.month) return -1;
+            else return 0;
+          }
+        });
       } else {
         this.toastr.error(res.message);
       }
@@ -67,6 +89,18 @@ export class SavedComponent implements OnInit {
       total_saved += (element.amount || 0) - (element.totalConsumption || 0);
     });
     return total_saved;
+  }
+
+  showConsumpDetails(year, month) {
+    let day;
+    if ([4,6,9,11].includes(month)) day = 30;
+    else if (month == 2) {
+      if (year % 4 == 0) day = 29;
+      else day = 28;
+    } else day = 31;
+    let start = new Date(year, month - 1, 1, 11, 0, 0).toISOString();
+    let end = new Date(year, month - 1, day, 11, 0, 0).toISOString();
+    this.router.navigate(["/billManage/listBills"], { replaceUrl: true, queryParams: {from_time: start, to_time: end} });
   }
 
   openModal(template: TemplateRef<any>) {

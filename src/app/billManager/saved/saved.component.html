@@ -20,6 +20,7 @@
                   <th>Lương</th>
                   <th>Đã tiêu</th>
                   <th>Còn lại</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -35,6 +36,7 @@
                   </td>
                   <td>{{el.totalConsumption || 0}}</td>
                   <td>{{(el.amount || 0) - (el.totalConsumption || 0)}}</td>
+                  <td><a href="javascript:void(0)" (click)="showConsumpDetails(el.year, el.month)">Xem chi tiết</a></td>
                 </tr>
               </tbody>
             </table>
@@ -45,7 +47,7 @@
     </div>
   </div>
 
-  <!-- Modal create bill -->
+  <!-- Modal update salary -->
   <ng-template #template>
     <div class="modal-header">
       <h4 class="modal-title pull-left">Cập nhật lương</h4>
@@ -59,11 +61,11 @@
           <div class="form-group">
             <label for="date">Tháng<span class="text-danger"></span>:</label>
             <input type="text"
-              placeholder="Chọn ngày"
+              placeholder="Chọn tháng"
               class="form-control"
               [isDisabled]="true"
               bsDatepicker
-              [bsConfig]="{ dateInputFormat: 'MM-YYYY', BsDatepickerViewMode: 'month' }"
+              [bsConfig]="bsConfig"
               placement="top"
               [(ngModel)]="editting_data.time" disabled>
           </div>

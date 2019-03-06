@@ -28,4 +28,9 @@ export class BillsService {
     let params = new HttpParams().set("month", month).set("year", year);
     return this.httpHelper.post("/api/salary", data, params, token);
   }
+
+  getSalary(token) {
+    let params = new HttpParams();
+    return this.httpHelper.get("/api/salary", params, token);
+  }
 }
