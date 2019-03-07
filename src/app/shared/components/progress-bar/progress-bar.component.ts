@@ -17,9 +17,7 @@ export class ProgressBarComponent implements OnInit {
   ngOnInit() {
     this.progressBarService.watchStorage()
       .subscribe((state) => {
-        console.log(this.show)
         this.show = state;
-        console.log(this.show)
       });
   }
 }

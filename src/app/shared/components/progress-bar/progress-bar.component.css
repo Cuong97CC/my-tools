@@ -9,12 +9,6 @@
   overflow-x: hidden;
   z-index: 9999;
 }
-.line {
-  position: absolute;
-  background: #008dcf;
-  width: 150%;
-  height: 4px;
-}
 .subline {
   position: absolute;
   background: #008dcf;
