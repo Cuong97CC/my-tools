@@ -6,15 +6,18 @@ import { Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators'
 
 import { apiUrl, hostName } from '../../environments/environment';
+import { ProgressBarService } from '../shared/services/progress-bar.service';
 
 @Injectable()
 export class HttpHelper {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private progressBarService: ProgressBarService
   ) { }
 
   get(url: string, params: HttpParams, token: string) {
+    this.showLoader();
     const headers = {'Content-Type': 'application/json'};
     if (token) headers['x-access-token'] = token;
     const httpOptions = {
@@ -25,11 +28,12 @@ export class HttpHelper {
       .get(apiUrl + url, httpOptions)
       .pipe(
         catchError(this.handleError),
-        finalize(() => {})
+        finalize(() => this.hideLoader())
       );
   }
 
   post(url: string, data: object, params: HttpParams, token: string) {
+    this.showLoader();
     const headers = {'Content-Type': 'application/json'};
     if (token) headers['x-access-token'] = token;
     const httpOptions = {
@@ -40,11 +44,12 @@ export class HttpHelper {
       .post(apiUrl + url, data, httpOptions)
       .pipe(
         catchError(this.handleError),
-        finalize(() => {})
+        finalize(() => this.hideLoader())
       );
   }
 
   put(url: string, data: object, params: HttpParams, token: string) {
+    this.showLoader();
     const headers = {'Content-Type': 'application/json'};
     if (token) headers['x-access-token'] = token;
     const httpOptions = {
@@ -55,11 +60,12 @@ export class HttpHelper {
       .put(apiUrl + url, data, httpOptions)
       .pipe(
         catchError(this.handleError),
-        finalize(() => {})
+        finalize(() => this.hideLoader())
       );
   }
 
   delete(url: string, params: HttpParams, token: string) {
+    this.showLoader();
     const headers = {'Content-Type': 'application/json'};
     if (token) headers['x-access-token'] = token;
     const httpOptions = {
@@ -70,11 +76,12 @@ export class HttpHelper {
       .delete(apiUrl + url, httpOptions)
       .pipe(
         catchError(this.handleError),
-        finalize(() => {})
+        finalize(() => this.hideLoader())
       );
   }
 
   postForm(url: string, data: FormData, params: HttpParams, token: string) {
+    this.showLoader();
     const headers = {};
     if (token) headers['x-access-token'] = token;
     const httpOptions = {
@@ -85,7 +92,7 @@ export class HttpHelper {
       .post(apiUrl + url, data, httpOptions)
       .pipe(
         catchError(this.handleError),
-        finalize(() => {})
+        finalize(() => this.hideLoader())
       );
   }
 
@@ -101,5 +108,12 @@ export class HttpHelper {
       observer.next(error.message || error);
       observer.complete();
     });
+  }
+
+  private showLoader(): void {
+    this.progressBarService.show();
+  }
+  private hideLoader(): void {
+    this.progressBarService.hide();
   }
 }

@@ -11,6 +11,7 @@ export class LogInComponent implements OnInit {
   email: String;
   password: String;
   message: String;
+  processing = false;
 
   constructor(
     private userService: UserService
@@ -20,18 +21,22 @@ export class LogInComponent implements OnInit {
   }
 
   logIn() {
-    let data = {
-      email: this.email,
-      password: this.password
-    }
-    this.userService.logIn(data).subscribe(res => {
-      if (res.code == 1) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(res.data.user));
-        window.location.href = hostName;
-      } else {
-        this.message = res.message;
+    if (!this.processing) {
+      let data = {
+        email: this.email,
+        password: this.password
       }
-    })
+      this.processing = true;
+      this.userService.logIn(data).subscribe(res => {
+        if (res.code == 1) {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+          window.location.href = hostName;
+        } else {
+          this.message = res.message;
+        }
+        this.processing = false;
+      })
+    }
   }
 }

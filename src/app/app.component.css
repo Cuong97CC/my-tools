@@ -1,5 +1,5 @@
-/* footer {
-  position: absolute;
-  bottom: 0;
+.main-scroll {
   width: 100%;
-} */
+  height: calc(100vh - 80px);
+  overflow: auto;
+}

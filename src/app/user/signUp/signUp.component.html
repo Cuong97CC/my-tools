@@ -21,7 +21,7 @@
 
     <div class="clearfix">
       <button type="button" class="cancelbtn">Cancel</button>
-      <button type="submit" class="signupbtn" (click)="signUp()">Sign Up</button>
+      <button type="submit" [class.disabled]="processing" class="signupbtn" (click)="signUp()">Sign Up</button>
     </div>
   </div>
 </form>

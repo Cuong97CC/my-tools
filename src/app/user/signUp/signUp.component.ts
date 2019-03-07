@@ -13,6 +13,7 @@ export class SignUpComponent implements OnInit {
   password: String;
   passwordConf: String;
   message: String;
+  processing = false;
 
   constructor(
     private userService: UserService
@@ -22,20 +23,24 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp() {
-    let data = {
-      email: this.email,
-      username: this.username,
-      password: this.password,
-      passwordConf: this.passwordConf
-    }
-    this.userService.signUp(data).subscribe(res => {
-      if (res.code == 1) {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("currentUser", JSON.stringify(res.data.user));
-        window.location.href = hostName;
-      } else {
-        this.message = res.message;
+    if (!this.processing) {
+      let data = {
+        email: this.email,
+        username: this.username,
+        password: this.password,
+        passwordConf: this.passwordConf
       }
-    })
+      this.processing = true;
+      this.userService.signUp(data).subscribe(res => {
+        if (res.code == 1) {
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("currentUser", JSON.stringify(res.data.user));
+          window.location.href = hostName;
+        } else {
+          this.message = res.message;
+        }
+        this.processing = false;
+      })
+    }
   }
 }
