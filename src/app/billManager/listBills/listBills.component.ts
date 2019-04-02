@@ -95,6 +95,7 @@ export class ListBillsComponent implements OnInit {
             if (time >= this.from_time && time <= this.to_time) {
               res.data.new_bill.time = moment(new Date(time)).format("DD/MM/YYYY");
               this.bills.push(res.data.new_bill);
+              this.total_cost += res.data.new_bill.cost;
             }
           } else {
             this.toastr.error(res.message);

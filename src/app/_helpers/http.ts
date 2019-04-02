@@ -98,8 +98,12 @@ export class HttpHelper {
 
   private handleError = (error: any): Observable<any> => {
     if (error.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
       window.location.href = hostName;
     } else if (error.status === 402) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
       window.location.href = hostName;
     } else {
       console.error('An error occurred', error);
