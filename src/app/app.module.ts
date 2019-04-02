@@ -6,19 +6,29 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { ToastrModule } from 'ngx-toastr';
+import { NgOpenCVModule } from 'ng-open-cv';
+import { OpenCVOptions } from 'ng-open-cv/public_api';
 
 import { routing } from './app.routing';
 import { HttpHelper } from './_helpers/http'
 
 import { AppComponent } from './app.component';
 import { HtmlViewComponent } from './htmlView/htmlView.component';
+import { ImageToGsheetComponent } from './imageToGsheet/imageToGsheet.component';
 
 import { ProgressBarService } from './shared/services/progress-bar.service';
+
+const openCVConfig: OpenCVOptions = {
+  scriptUrl: `assets/opencv/opencv.js`,
+  wasmBinaryFile: 'wasm/opencv_js.wasm',
+  usingWasm: true
+};
 
 @NgModule({
   declarations: [
     AppComponent,
-    HtmlViewComponent
+    HtmlViewComponent,
+    ImageToGsheetComponent
   ],
   imports: [
     SharedModule,
@@ -28,7 +38,8 @@ import { ProgressBarService } from './shared/services/progress-bar.service';
     BrowserAnimationsModule,
     HttpClientModule,
     MonacoEditorModule.forRoot(),
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgOpenCVModule.forRoot(openCVConfig)
   ],
   providers: [
     HttpHelper,

@@ -152,7 +152,10 @@ export class ListBillsComponent implements OnInit {
     this.billsService.deleteBill(id, this.token).subscribe(res => {
       if (res.code == 1) {
         let index = this.bills.findIndex(val => val._id == id);
-        if (index > -1) this.bills.splice(index, 1);
+        if (index > -1) {
+          this.total_cost -= this.bills[index].cost;
+          this.bills.splice(index, 1);
+        }
         this.toastr.success(res.message);
       } else this.toastr.error(res.message);
     });
