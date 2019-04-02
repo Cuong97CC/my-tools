@@ -13,12 +13,16 @@
         <a class="nav-link" routerLink="/htmlView">HTML</a>
       </li>
       <li *ngIf="currentUser" routerLinkActive="active" class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quản lý chi tiêu</a>
+        <a class="nav-link dropdown-toggle" href="#" id="aboutDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quản lý tiền</a>
         <div class="dropdown-menu" aria-labelledby="aboutDropdown">
           <a class="dropdown-item" routerLink="/billManage/saved">Tiền tiết kiệm</a>
           <a class="dropdown-item" routerLink="/billManage/listBills">Chi tiết chi tiêu</a>
           <a class="dropdown-item" routerLink="/billManage/salary">Lương</a>
         </div>
+      </li>
+      <li class="nav-item" routerLinkActive="active" *ngIf="currentUser && currentUser.role == 'admin'">
+
+        <a class="nav-link" routerLink="/imageToGsheet">Ảnh > GSheet</a>
       </li>
     </ul>
     <ul *ngIf="!currentUser" class="navbar-nav">
