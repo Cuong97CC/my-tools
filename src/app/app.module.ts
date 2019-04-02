@@ -14,7 +14,7 @@ import { HttpHelper } from './_helpers/http'
 
 import { AppComponent } from './app.component';
 import { HtmlViewComponent } from './htmlView/htmlView.component';
-import { ImageToGsheetComponent } from './imageToGsheet/imageToGsheet.component';
+import { ImageToTextComponent } from './imageToText/imageToText.component';
 
 import { ProgressBarService } from './shared/services/progress-bar.service';
 
@@ -28,7 +28,7 @@ const openCVConfig: OpenCVOptions = {
   declarations: [
     AppComponent,
     HtmlViewComponent,
-    ImageToGsheetComponent
+    ImageToTextComponent
   ],
   imports: [
     SharedModule,
