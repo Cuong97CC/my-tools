@@ -27,6 +27,9 @@
       <li class="nav-item">
         <a class="nav-link" href="#css" aria-controls="css" role="tab" data-toggle="tab">Css</a>
       </li>
+      <li *ngIf="!live_demo" class="nav-item ml-auto">
+        <button class="btn btn-success btn-load" (click)="refreshView(true)"><i class="fa fa-refresh"></i></button>
+      </li>
     </ul>
     <!-- Tab panes -->
     <div class="tab-content">
@@ -68,6 +71,6 @@
   </div>
 
   <div class="col-md">
-    <iframe [attr.srcdoc]="view" [ngStyle]="{'height.px': checkHeight()}" style="width: 100%"></iframe>
+    <iframe id="html-frame" [ngStyle]="{'height.px': checkHeight()}" style="width: 100%"></iframe>
   </div>
 </div>

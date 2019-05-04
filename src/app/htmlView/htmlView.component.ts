@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+declare var $: any;
 
 @Component({
   selector: 'app-html-view',
@@ -13,17 +14,11 @@ export class HtmlViewComponent implements OnInit {
   css = "";
   editor_height = 300;
   split_mode = true;
-  view: SafeHtml;
-  root_styles: String = "";
   live_demo = false;
 
-  constructor(public sanitizer: DomSanitizer) { }
+  constructor() {}
 
   ngOnInit() {
-    let styles = document.getElementsByTagName('head')[0].getElementsByTagName('style');
-    for (let i = 0; i < styles.length; i++) {
-      this.root_styles += styles[i].outerHTML;
-    }
     this.refreshView(true);
   }
 
@@ -35,6 +30,10 @@ export class HtmlViewComponent implements OnInit {
 
   refreshView(refresh) {
     if (!refresh) return;
-    this.view = this.sanitizer.bypassSecurityTrustHtml(`<html><head>${this.root_styles}</head><body>${this.html}<style>${this.css}</style><body></html>`);
+    let head = `<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>`;
+    $('#html-frame').attr('srcdoc', `<html><head>${head}</head><body>${this.html}<style>${this.css}</style><body></html>`);
   }
 }
