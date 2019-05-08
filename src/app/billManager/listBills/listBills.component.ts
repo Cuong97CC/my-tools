@@ -25,6 +25,7 @@ export class ListBillsComponent implements OnInit {
   from_time: Date = new Date();
   to_time: Date = new Date();
   tag_filter: String = "";
+  keyword: String = "";
   maxDate: Date;
   bsConfig: any;
   message: String;
@@ -113,7 +114,7 @@ export class ListBillsComponent implements OnInit {
   filter() {
     this.from_time = this.setTimeInHour(this.from_time, 0, 0, 0);
     this.to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
-    this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.token).subscribe(res => {
+    this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.keyword, this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
         this.total_cost = 0;

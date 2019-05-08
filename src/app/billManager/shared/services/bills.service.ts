@@ -9,8 +9,8 @@ export class BillsService {
     private httpHelper: HttpHelper
   ) { }
 
-  getBills(tag, from_time, to_time, token) {
-    let params = new HttpParams().set("tag", tag).set("from_time", from_time).set("to_time", to_time);
+  getBills(tag, from_time, to_time, keyword, token) {
+    let params = new HttpParams().set("tag", tag).set("from_time", from_time).set("to_time", to_time).set("keyword", keyword);
     return this.httpHelper.get("/api/money/getBills", params, token);
   }
 

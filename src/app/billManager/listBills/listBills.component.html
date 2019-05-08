@@ -1,27 +1,40 @@
 <div class="container">
   <div class="row">
-    <div class="input-group input-group-sm d-flex">
-      <div class="align-self-center small">Từ: </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <div class="small">Từ: </div>
       <input type="text"
         placeholder="Chọn ngày"
-        class="form-control ml-1 mr-2"
+        class="form-control form-control-sm ml-1 mr-2"
         bsDatepicker
         [(ngModel)]="from_time"
         [bsConfig]="bsConfig">
-      <div class="align-self-center small">Đến: </div>
-        <input type="text"
-          placeholder="Chọn ngày"
-          class="form-control ml-1 mr-2"
-          bsDatepicker
-          [(ngModel)]="to_time"
-          [bsConfig]="bsConfig">
-        <div class="align-self-center small">Loại: </div>
-        <select class="form-control ml-1" [(ngModel)]="tag_filter">
-          <option value="">Tất cả</option>
-          <option *ngFor="let t of tags" value="{{t}}">{{t}}</option>
-        </select>
-        <button class="btn btn-primary btn-sm ml-1" (click)="filter()"><i class="fa fa-filter"></i> Lọc</button>
-        <button class="btn btn-success btn-sm ml-1" (click)="openModal(template)"><i class="fa fa-plus"></i> Thêm chi tiêu</button>
+    </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <div class="small">Đến: </div>
+      <input type="text"
+        placeholder="Chọn ngày"
+        class="form-control form-control-sm ml-1 mr-2"
+        bsDatepicker
+        [(ngModel)]="to_time"
+        [bsConfig]="bsConfig">
+    </div>
+    <div class="col-md-2 d-flex align-items-center">
+      <div class="small">Loại: </div>
+      <select class="form-control form-control-sm ml-1" [(ngModel)]="tag_filter">
+        <option value="">Tất cả</option>
+        <option *ngFor="let t of tags" value="{{t}}">{{t}}</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex align-items-center">
+      <div class="small">Từ khóa: </div>
+      <input type="text"
+        placeholder="Từ khóa"
+        class="form-control form-control-sm ml-1 mr-2"
+        [(ngModel)]="keyword">
+    </div>
+    <div class="col-md-3 d-flex align-items-center">
+      <button class="btn btn-primary btn-sm ml-1" (click)="filter()"><i class="fa fa-filter"></i> Lọc</button>
+      <button class="btn btn-success btn-sm ml-1" (click)="openModal(template)"><i class="fa fa-plus"></i> Thêm chi tiêu</button>
     </div>
   </div>
   <div class="row my-3">
