@@ -50,18 +50,12 @@ export class ListBillsComponent implements OnInit {
   ngOnInit() {
     this.token = localStorage.getItem('token');
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.sub = this.route.queryParams.subscribe(params => {
-      if (params['from_time']) this.from_time = new Date(params['from_time']);
-      else this.from_time = new Date();
-      if (params['to_time']) this.to_time = new Date(params['to_time']);
-      else this.to_time = new Date();
-    });
+    if (this.route.queryParams['_value']['from_time']) this.from_time = new Date(this.route.queryParams['_value']['from_time']);
+    else this.from_time = new Date();
+    if (this.route.queryParams['_value']['to_time']) this.to_time = new Date(this.route.queryParams['_value']['to_time']);
+    else this.to_time = new Date();
     this.maxDate = new Date();
     this.filter();
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   initBillForm() {
