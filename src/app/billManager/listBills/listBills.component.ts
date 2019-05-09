@@ -30,6 +30,7 @@ export class ListBillsComponent implements OnInit {
   bsConfig: any;
   message: String;
   bills: any = [];
+  suggest_details: any = [];
   total_cost = 0;
   tags: any;
   processing = false;
@@ -63,6 +64,30 @@ export class ListBillsComponent implements OnInit {
     this.details = "";
     this.cost = 0;
     this.date = new Date();
+  }
+
+  initSuggestion() {
+    switch (this.tag) {
+      case 'Đi lại':
+        this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
+        break;
+      case 'Ăn uống':
+        this.suggest_details = ["Ăn trưa", "Ăn tối", "Ăn vặt"];
+        break;
+      case 'Nhà ở':
+        this.suggest_details = ["Tiền nhà"];
+        break;
+      case 'Đồ dùng':
+        this.suggest_details = ["Quần áo", "Bàn chải"];
+        break;
+      case 'Game':
+        this.suggest_details = [];
+        break;
+      case 'Khác':
+        this.suggest_details = ["Lego", "Cắt tóc", "Tiền điện thoại"];
+        break;
+      default: break;
+    }
   }
 
   openModal(template: TemplateRef<any>) {
