@@ -101,7 +101,10 @@
         </div>
         <div class="form-group">
           <label for="cost">Số tiền<span class="text-danger">*</span>:</label>
-          <input type="number" min="0" class="form-control" placeholder="Nhập số tiền" name="cost" [(ngModel)]="cost">
+          <input type="number" min="0" list="suggest_cost" class="form-control" placeholder="Nhập số tiền" name="cost" [(ngModel)]="cost">
+          <datalist id="suggest_cost">
+            <option *ngFor="let c of suggest_cost" value="{{c}}">
+          </datalist>
         </div>
         <div class="form-group">
           <label for="date">Ngày<span class="text-danger">*</span>:</label>

@@ -14,13 +14,12 @@ declare var bootbox :any;
   styleUrls: ['./listBills.component.css']
 })
 export class ListBillsComponent implements OnInit {
-  private sub: any;
   modalRef: BsModalRef;
   token: String;
   currentUser: any;
   tag: String;
   details: String = "";
-  cost: Number = 0;
+  cost: Number;
   date: Date = new Date();
   from_time: Date = new Date();
   to_time: Date = new Date();
@@ -31,6 +30,7 @@ export class ListBillsComponent implements OnInit {
   message: String;
   bills: any = [];
   suggest_details: any = [];
+  suggest_cost: any = [];
   total_cost = 0;
   tags: any;
   processing = false;
@@ -69,21 +69,27 @@ export class ListBillsComponent implements OnInit {
   initSuggestion() {
     switch (this.tag) {
       case 'Đi lại':
+        this.suggest_cost = [7000, 40000, 50000];
         this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
         break;
       case 'Ăn uống':
+        this.suggest_cost = [30000];
         this.suggest_details = ["Ăn trưa", "Ăn tối", "Ăn vặt"];
         break;
       case 'Nhà ở':
+        this.suggest_cost = [];
         this.suggest_details = ["Tiền nhà"];
         break;
       case 'Đồ dùng':
+        this.suggest_cost = [];
         this.suggest_details = ["Quần áo", "Bàn chải"];
         break;
       case 'Game':
+        this.suggest_cost = [];
         this.suggest_details = [];
         break;
       case 'Khác':
+        this.suggest_cost = [];
         this.suggest_details = ["Lego", "Cắt tóc", "Tiền điện thoại"];
         break;
       default: break;
