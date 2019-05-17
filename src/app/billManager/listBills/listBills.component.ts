@@ -100,16 +100,24 @@ export class ListBillsComponent implements OnInit {
     this.modalRef = this.modalService.show(template);
   }
 
+  clearFromTime() {
+    this.from_time = null;
+  }
+
+  clearToTime() {
+    this.to_time = null;
+  }
+
   createBill() {
     if (this.currentUser && !this.processing) {
       if (this.tag && this.cost && this.date) {
         // Temporary fix timezone bug in server
-        this.date = this.setTimeInHour(this.date, 11, 0, 0);
+        var date = this.setTimeInHour(this.date, 11, 0, 0);
         let data = {
           tag: this.tag,
           details: this.details,
           cost: this.cost,
-          time: this.date.getTime()
+          time: date
         }
         this.processing = true;
         this.billsService.createBill(data, this.token).subscribe(res => {
@@ -137,9 +145,9 @@ export class ListBillsComponent implements OnInit {
   }
 
   filter() {
-    this.from_time = this.setTimeInHour(this.from_time, 0, 0, 0);
-    this.to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
-    this.billsService.getBills(this.tag_filter, this.from_time.getTime(), this.to_time.getTime(), this.keyword, this.token).subscribe(res => {
+    var from_time = this.setTimeInHour(this.from_time, 0, 0, 0);
+    var to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
+    this.billsService.getBills(this.tag_filter, from_time, to_time, this.keyword, this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
         this.total_cost = 0;
@@ -149,7 +157,7 @@ export class ListBillsComponent implements OnInit {
             this.total_cost += bill.cost;
           });
         }
-      }
+      } else this.toastr.error(res.message);
     });
   }
 
@@ -188,9 +196,10 @@ export class ListBillsComponent implements OnInit {
   }
 
   setTimeInHour(date: Date, hour, minute, second) {
+    if (!date) return '';
     date.setHours(hour);
     date.setMinutes(minute);
     date.setSeconds(second);
-    return date;
+    return date.getTime();
   }
 }
