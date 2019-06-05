@@ -4,9 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
 import { BsDatepickerViewMode } from 'ngx-bootstrap/datepicker';
 import { tags } from '../../../environments/environment';
-import * as moment from 'moment';
 import { Chart } from 'angular-highcharts';
-import { validateConfig } from '@angular/router/src/config';
+
 @Component({
   selector: 'chart',
   templateUrl: './chart.component.html',
@@ -73,7 +72,7 @@ export class ChartComponent implements OnInit {
     this.billsService.getChart(from_time, to_time, this.token).subscribe((res) => {
       console.log(res)
       if (res.code == 1) {
-        let axis = this.createXAxis(from_time, to_time);
+        let axis = this.createXAxis(from_time, to_time, res.data);
         this.chart = new Chart({
           chart: {
             type: 'line'
@@ -94,15 +93,29 @@ export class ChartComponent implements OnInit {
     })
   }
 
-  createXAxis(from_time, to_time) {
+  createXAxis(from_time, to_time, data) {
     let axis = [];
-    from_time = new Date(from_time);
-    to_time = new Date(to_time);
-    let start_month = from_time.getMonth() + 1;
-    let end_month = to_time.getMonth() + 1;
-    let start_year = from_time.getFullYear();
-    let end_year = to_time.getFullYear();
-    if (from_time > to_time) return [];
+
+    if (from_time && to_time && from_time > to_time) return [];
+    let start_month, start_year, end_month, end_year;
+    if (from_time) {
+      from_time = new Date(from_time);
+      start_month = from_time.getMonth() + 1;
+      start_year = from_time.getFullYear();
+    } else {
+      start_year = this.getMinYear(data);
+      start_month = this.getMinMonth(data, start_year);
+    }
+
+    if (to_time) {
+      to_time = new Date(to_time);
+      end_month = to_time.getMonth() + 1;
+      end_year = to_time.getFullYear();
+    } else {
+      end_year = this.getMaxYear(data);
+      end_month = this.getMaxMonth(data, end_year);
+    }
+
     if (start_year == end_year) {
       for (let i = start_month; i <= end_month; i++) {
         axis.push(i + '/' + start_year);
@@ -120,6 +133,7 @@ export class ChartComponent implements OnInit {
         axis.push(i + '/' + end_year);
       }
     }
+    console.log(axis)
     return axis;
   }
 
@@ -143,6 +157,38 @@ export class ChartComponent implements OnInit {
       });
     });
     return result;
+  }
+
+  getMinYear(data) {
+    let min = new Date().getFullYear();
+    data.forEach(element => {
+      if (element._id.year < min) min = element._id.year;
+    });
+    return min;
+  }
+
+  getMaxYear(data) {
+    let max = 0;
+    data.forEach(element => {
+      if (element._id.year > max) max = element._id.year;
+    });
+    return max;
+  }
+
+  getMinMonth(data, min_year) {
+    let min = 12;
+    data.forEach(element => {
+      if (element._id.year == min_year && element._id.month < min) min = element._id.month;
+    });
+    return min;
+  }
+
+  getMaxMonth(data, max_year) {
+    let max = 1;
+    data.forEach(element => {
+      if (element._id.year == max_year && element._id.month > max) max = element._id.month;
+    });
+    return max;
   }
 
   setTimeInDate(date: Date, hour, minute, second, day) {
