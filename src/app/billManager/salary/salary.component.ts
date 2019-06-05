@@ -21,7 +21,6 @@ export class SalaryComponent implements OnInit {
   message: String;
   processing = false;
 
-  bsValue: Date = new Date(2017, 7);
   minMode: BsDatepickerViewMode = 'month';
 
   bsConfig: Partial<BsDatepickerConfig>;

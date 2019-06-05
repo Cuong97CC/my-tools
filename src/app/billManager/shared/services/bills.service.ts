@@ -38,4 +38,9 @@ export class BillsService {
     let params = new HttpParams();
     return this.httpHelper.get("/api/salary", params, token);
   }
+
+  getChart(from_time, to_time, token) {
+    let params = new HttpParams().set("from_time", from_time).set("to_time", to_time);
+    return this.httpHelper.get("/api/money/analysisByMonth", params, token);
+  }
 }

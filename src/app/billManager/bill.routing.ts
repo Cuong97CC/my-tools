@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ListBillsComponent } from './listBills/listBills.component';
 import { SavedComponent } from './saved/saved.component';
 import { SalaryComponent } from './salary/salary.component';
+import { ChartComponent } from './chart/chart.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'salary',
     component: SalaryComponent
+  },
+  {
+    path: 'chart',
+    component: ChartComponent
   }
 ];
 
