@@ -70,7 +70,6 @@ export class ChartComponent implements OnInit {
     let from_time = this.setTimeInDate(this.from_time, 12, 0, 0, 1);
     let to_time = this.setTimeInDate(this.to_time, 12, 0, 0, day);
     this.billsService.getChart(from_time, to_time, this.token).subscribe((res) => {
-      console.log(res)
       if (res.code == 1) {
         let axis = this.createXAxis(from_time, to_time, res.data);
         this.chart = new Chart({
@@ -78,7 +77,7 @@ export class ChartComponent implements OnInit {
             type: 'line'
           },
           title: {
-            text: 'Linechart'
+            text: 'Thống kê'
           },
           credits: {
             enabled: false
@@ -95,7 +94,6 @@ export class ChartComponent implements OnInit {
 
   createXAxis(from_time, to_time, data) {
     let axis = [];
-
     if (from_time && to_time && from_time > to_time) return [];
     let start_month, start_year, end_month, end_year;
     if (from_time) {
@@ -133,7 +131,6 @@ export class ChartComponent implements OnInit {
         axis.push(i + '/' + end_year);
       }
     }
-    console.log(axis)
     return axis;
   }
 
