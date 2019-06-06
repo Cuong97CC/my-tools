@@ -55,17 +55,19 @@ export class ChartComponent implements OnInit {
   filter() {
     this.processing = true;
     let day = 31;
-    switch (this.to_time.getMonth() + 1) {
-      case 2:
-        day = 28;
-        break;
-      case 4:
-      case 6:
-      case 9:
-      case 11:
-        day = 30;
-        break;
-      default: break;
+    if (this.to_time) {
+      switch (this.to_time.getMonth() + 1) {
+        case 2:
+          day = 28;
+          break;
+        case 4:
+        case 6:
+        case 9:
+        case 11:
+          day = 30;
+          break;
+        default: break;
+      }
     }
     let from_time = this.setTimeInDate(this.from_time, 12, 0, 0, 1);
     let to_time = this.setTimeInDate(this.to_time, 12, 0, 0, day);
