@@ -89,7 +89,7 @@ export class ListBillsComponent implements OnInit {
         this.suggest_details = [];
         break;
       case 'Khác':
-        this.suggest_cost = [];
+        this.suggest_cost = [20000, 50000];
         this.suggest_details = ["Lego", "Cắt tóc", "Tiền điện thoại"];
         break;
       default: break;

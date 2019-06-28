@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { NgOpenCVService, OpenCVLoadResult } from 'ng-open-cv';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 declare var cv: any;
 
@@ -62,7 +62,6 @@ export class ImageToTextComponent implements OnInit {
       let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       let color_matrix = [];
       let matrix = await cv.matFromImageData(imgData);
-      console.log(matrix)
       let new_size = this.calculateSize(matrix);
       let dsize = new cv.Size(new_size.col, new_size.row);
       // You can try more different parameters
@@ -87,15 +86,16 @@ export class ImageToTextComponent implements OnInit {
   export() {
     if (this.color_matrix && this.color_matrix.length > 0) {
       let html = document.getElementById('result').outerHTML;
-      var data = new Blob([html]);
-      var download_btn: any = document.getElementById("download");
+      let data = new Blob([html]);
+      let download_btn = document.createElement('a');
       download_btn.href = URL.createObjectURL(data);
+      download_btn.download = 'Download.html';
       download_btn.click();
     }
   }
 
   calculateSize(matrix) {
-    const MAX = 500;
+    const MAX = 400;
     if (matrix.rows > MAX || matrix.cols > MAX) {
       let ratio = matrix.rows / matrix.cols;
       let row = MAX;
