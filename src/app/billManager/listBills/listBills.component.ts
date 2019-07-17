@@ -69,11 +69,11 @@ export class ListBillsComponent implements OnInit {
   initSuggestion() {
     switch (this.tag) {
       case 'Đi lại':
-        this.suggest_cost = [7000, 40000, 50000];
+        this.suggest_cost = [7000, 40000, 50000, 55000];
         this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
         break;
       case 'Ăn uống':
-        this.suggest_cost = [30000];
+        this.suggest_cost = [30000, 7000];
         this.suggest_details = ["Ăn trưa", "Ăn tối", "Ăn vặt"];
         break;
       case 'Nhà ở':

@@ -15,7 +15,7 @@ export class ChartComponent implements OnInit {
   chart: any;
   token: String;
   currentUser: any;
-  from_time: Date = new Date();
+  from_time: Date;
   to_time: Date = new Date();
   bsConfig: any;
   message: String;
