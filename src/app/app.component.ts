@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { HttpHelper } from './_helpers/http';
-import { HttpParams } from '@angular/common/http';
 import { hostName } from '../environments/environment';
 
 @Component({
@@ -15,8 +13,7 @@ export class AppComponent implements OnInit {
   currentUser: any;
 
   constructor(
-    private toastr: ToastrService,
-    private httpHelper: HttpHelper
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -25,16 +22,9 @@ export class AppComponent implements OnInit {
   }
 
   logOut() {
-    let params = new HttpParams();
-    return this.httpHelper.get("/api/user/logOut", params, null).subscribe(res => {
-      if (res.code == 1) {
-        this.token = null;
-        this.currentUser = null;
-        localStorage.removeItem("token");
-        localStorage.removeItem("currentUser");
-        window.location.href = hostName;
-      }
-    });
+    localStorage.removeItem("token");
+    localStorage.removeItem("currentUser");
+    window.location.href = hostName;
   }
 
 }
