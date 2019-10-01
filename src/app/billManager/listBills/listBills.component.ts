@@ -34,6 +34,8 @@ export class ListBillsComponent implements OnInit {
   total_cost = 0;
   tags: any;
   processing = false;
+  min_cost: Number;
+  max_cost: Number;
 
   constructor(
     private route: ActivatedRoute,
@@ -147,7 +149,7 @@ export class ListBillsComponent implements OnInit {
   filter() {
     var from_time = this.setTimeInHour(this.from_time, 0, 0, 0);
     var to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
-    this.billsService.getBills(this.tag_filter, from_time, to_time, this.keyword, this.token).subscribe(res => {
+    this.billsService.getBills(this.tag_filter, from_time, to_time, this.min_cost || "", this.max_cost || "", this.keyword, this.token).subscribe(res => {
       if (res.code == 1) {
         this.bills = res.data.bills;
         this.total_cost = 0;
