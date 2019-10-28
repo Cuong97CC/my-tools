@@ -75,7 +75,7 @@ export class ListBillsComponent implements OnInit {
         this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
         break;
       case 'Ăn uống':
-        this.suggest_cost = [30000, 7000];
+        this.suggest_cost = [20000, 50000];
         this.suggest_details = ["Ăn trưa", "Ăn tối", "Ăn vặt"];
         break;
       case 'Nhà ở':
@@ -85,6 +85,10 @@ export class ListBillsComponent implements OnInit {
       case 'Đồ dùng':
         this.suggest_cost = [];
         this.suggest_details = ["Quần áo", "Bàn chải"];
+        break;
+      case 'Thú cưng':
+        this.suggest_cost = [];
+        this.suggest_details = [];
         break;
       case 'Game':
         this.suggest_cost = [];
