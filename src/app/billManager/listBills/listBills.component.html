@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-md-9">
-      <div class="row mb-2">
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Từ ngày: </div>
+      <div class="row">
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Từ ngày: </div>
           <input type="text"
             placeholder="Chọn ngày"
             class="form-control form-control-sm ml-1 mr-2"
@@ -12,8 +12,8 @@
             [bsConfig]="bsConfig">
           <a (click)="clearFromTime()" href="javascript:void(0)" class="text-danger"><i class="fa fa-close"></i></a>
         </div>
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Đến ngày: </div>
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Đến ngày: </div>
           <input type="text"
             placeholder="Chọn ngày"
             class="form-control form-control-sm ml-1 mr-2"
@@ -22,30 +22,30 @@
             [bsConfig]="bsConfig">
             <a (click)="clearToTime()" href="javascript:void(0)" class="text-danger"><i class="fa fa-close"></i></a>
         </div>
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Loại: </div>
-          <select class="form-control form-control-sm ml-1" [(ngModel)]="tag_filter">
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Loại: </div>
+          <select class="form-control form-control-sm" [(ngModel)]="tag_filter">
             <option value="">Tất cả</option>
             <option *ngFor="let t of tags" value="{{t}}">{{t}}</option>
           </select>
         </div>
       </div>
       <div class="row">
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Giá từ: </div>
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Giá từ: </div>
           <input type="number" placeholder="Giá thấp nhất" min="0"
-            class="form-control form-control-sm ml-1" [(ngModel)]="min_cost">
+            class="form-control form-control-sm" [(ngModel)]="min_cost">
         </div>
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Đến: </div>
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Đến: </div>
           <input type="number" placeholder="Giá cao nhất" min="0"
-            class="form-control form-control-sm ml-1" [(ngModel)]="max_cost">
+            class="form-control form-control-sm" [(ngModel)]="max_cost">
         </div>
-        <div class="col-md-4 d-flex align-items-center">
-          <div class="small">Từ khóa: </div>
+        <div class="col-md-4 d-flex align-items-center mb-2">
+          <div class="small w-25">Từ khóa: </div>
           <input type="text"
             placeholder="Từ khóa"
-            class="form-control form-control-sm ml-1"
+            class="form-control form-control-sm"
             [(ngModel)]="keyword">
         </div>
       </div>
