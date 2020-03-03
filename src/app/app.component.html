@@ -22,10 +22,8 @@
         </div>
       </li>
       <li class="nav-item" routerLinkActive="active" *ngIf="currentUser && currentUser.role == 'admin'">
+
         <a class="nav-link" routerLink="/imageToText">Image > Text</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active" *ngIf="currentUser && currentUser.role == 'admin'">
-        <a class="nav-link" routerLink="/timeline">Create Timeline</a>
       </li>
     </ul>
     <ul *ngIf="!currentUser" class="navbar-nav">

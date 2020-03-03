@@ -14,7 +14,6 @@ import { HttpHelper } from './_helpers/http'
 
 import { AppComponent } from './app.component';
 import { HtmlViewComponent } from './htmlView/htmlView.component';
-import { TimelineComponent } from './timeline/timeline.component';
 import { ImageToTextComponent } from './imageToText/imageToText.component';
 
 import { ProgressBarService } from './shared/services/progress-bar.service';
@@ -29,8 +28,7 @@ const openCVConfig: OpenCVOptions = {
   declarations: [
     AppComponent,
     HtmlViewComponent,
-    ImageToTextComponent,
-    TimelineComponent
+    ImageToTextComponent
   ],
   imports: [
     SharedModule,
