@@ -28,7 +28,7 @@ export class ListBillsComponent implements OnInit {
   maxDate: Date;
   bsConfig: any;
   message: String;
-  bills: any = [];
+  bills: any;
   suggest_details: any = [];
   suggest_cost: any = [];
   total_cost = 0;
@@ -71,12 +71,12 @@ export class ListBillsComponent implements OnInit {
   initSuggestion() {
     switch (this.tag) {
       case 'Đi lại':
-        this.suggest_cost = [7000, 40000, 50000, 55000];
+        this.suggest_cost = [7000, 40000, 50000];
         this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
         break;
       case 'Ăn uống':
-        this.suggest_cost = [20000, 50000];
-        this.suggest_details = ["Ăn trưa", "Ăn tối", "Ăn vặt"];
+        this.suggest_cost = [20000, 40000, 50000];
+        this.suggest_details = ["Ăn sáng", "Ăn trưa", "Ăn tối", "Ăn vặt"];
         break;
       case 'Nhà ở':
         this.suggest_cost = [];
@@ -88,15 +88,15 @@ export class ListBillsComponent implements OnInit {
         break;
       case 'Thú cưng':
         this.suggest_cost = [];
-        this.suggest_details = [];
+        this.suggest_details = ["Hạt", "Cát", "Đồ chơi"];
         break;
       case 'Game':
         this.suggest_cost = [];
         this.suggest_details = [];
         break;
       case 'Khác':
-        this.suggest_cost = [20000, 50000];
-        this.suggest_details = ["Lego", "Cắt tóc", "Tiền điện thoại"];
+        this.suggest_cost = [20000, 25000, 50000];
+        this.suggest_details = ["Giặt quần áo", "Cắt tóc", "Tiền điện thoại"];
         break;
       default: break;
     }
@@ -134,6 +134,7 @@ export class ListBillsComponent implements OnInit {
             let time = new Date(res.data.new_bill.time);
             if (time >= this.from_time && time <= this.to_time) {
               res.data.new_bill.time = moment(new Date(time)).format("DD/MM/YYYY");
+              if (!this.bills) this.bills = [];
               this.bills.push(res.data.new_bill);
               this.total_cost += res.data.new_bill.cost;
             }

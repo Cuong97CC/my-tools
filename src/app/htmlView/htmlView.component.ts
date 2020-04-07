@@ -10,8 +10,10 @@ declare var $: any;
 export class HtmlViewComponent implements OnInit {
   htmlEditorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
   cssEditorOptions = {theme: 'vs-dark', language: 'css', automaticLayout: true};
+  jsEditorOptions = {theme: 'vs-dark', language: 'javascript', automaticLayout: true};
   html = "<h1>Hello World</h1>";
   css = "";
+  js = "";
   editor_height = 300;
   split_mode = true;
   live_demo = false;
@@ -34,6 +36,6 @@ export class HtmlViewComponent implements OnInit {
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>`;
-    $('#html-frame').attr('srcdoc', `<html><head>${head}</head><body>${this.html}<style>${this.css}</style><body></html>`);
+    $('#html-frame').attr('srcdoc', `<html><head>${head}</head><body>${this.html}<style>${this.css}</style><script>${this.js}</script><body></html>`);
   }
 }

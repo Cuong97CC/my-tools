@@ -6,3 +6,7 @@
   outline: none;
   box-shadow: 0 0 0 0;
 }
+
+.nav-tabs .nav-link.active {
+  border-bottom: 2px solid green!important;
+}
