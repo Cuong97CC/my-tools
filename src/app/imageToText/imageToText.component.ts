@@ -45,7 +45,9 @@ export class ImageToTextComponent implements OnInit {
           })
         )
         .subscribe(
-          () => {},
+          () => {
+            this.createText();
+          },
           err => {
             console.log('Error loading image', err);
           }
@@ -95,7 +97,7 @@ export class ImageToTextComponent implements OnInit {
   }
 
   calculateSize(matrix) {
-    const MAX = 400;
+    const MAX = 100;
     if (matrix.rows > MAX || matrix.cols > MAX) {
       let ratio = matrix.rows / matrix.cols;
       let row = MAX;
@@ -104,5 +106,9 @@ export class ImageToTextComponent implements OnInit {
       else row = Math.round(MAX * ratio);
       return {row: row, col: col};
     } else return {row: matrix.rows, col: matrix.cols};
+  }
+
+  trackByFn(index, item) {
+    return index;
   }
 }

@@ -17,20 +17,19 @@
           <div class="text-success">OpenCV.js is ready!</div>
           <div class="input-group input-group my-2">
             <div class="input-group-prepend">
-              <span class="input-group-text" id="basic-addon1">Image</span>
+              <span class="input-group-text">Image</span>
             </div>
             <input (change)="loadImage($event)" #fileInput type="file" id="fileInput"
-              class="form-control form-control" name="file" accept="image/*"/>
-            <span class="input-group-text" id="basic-addon1">Text</span>
-            <input type="text" class="form-control form-control" [(ngModel)]="text"/>
-            <span class="input-group-text" id="basic-addon1">Size</span>
-            <input type="number" class="form-control form-control" [(ngModel)]="size" (change)="resize()"/>
+              class="form-control" name="file" accept="image/png"/>
+            <span class="input-group-text">Text</span>
+            <input type="text" class="form-control" [(ngModel)]="text"/>
+            <span class="input-group-text">Size</span>
+            <input type="number" class="form-control" [(ngModel)]="size" (change)="resize()"/>
             <div class="input-group-append">
-              <button class="btn btn btn-success" [disabled]="!file" (click)="createText()">To Text</button>
-              <button *ngIf="color_matrix && color_matrix.length > 0" class="btn btn-primary" (click)="export()">Export</button>
+              <button [class.disabled]="!color_matrix || !color_matrix.length" class="btn btn-primary" (click)="export()">Export</button>
             </div>
           </div>
-          <div class="d-flex justify-content-center overflow-auto">
+          <div class="d-none">
             <canvas #canvasOutput></canvas>
           </div>
         </div>
@@ -42,8 +41,8 @@
 <div class="container-fluid overflow-auto my-2" id="result">
   <div class="d-flex justify-content-center" *ngIf="color_matrix && color_matrix.length > 0">
     <div>
-      <div *ngFor="let row of color_matrix">
-        <span *ngFor="let column of row" [style.color]="column">{{text}}</span>
+      <div *ngFor="let row of color_matrix;trackBy: trackByFn">
+        <span *ngFor="let column of row;trackBy: trackByFn" [style.color]="column">{{text}}</span>
       </div>
     </div>
   </div>
