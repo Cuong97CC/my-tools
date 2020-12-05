@@ -15,7 +15,6 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th>Năm</th>
                 <th>Tháng</th>
                 <th>Lương</th>
               </tr>
@@ -23,8 +22,7 @@
             <tbody>
               <tr *ngFor="let el of data; let i = index">
                 <td>{{i+1}}</td>
-                <td>{{el.year}}</td>
-                <td>{{el.month}}</td>
+                <td>{{el.month}}/{{el.year}}</td>
                 <td>{{(el.amount || 0).toLocaleString('en')}}</td>
               </tr>
             </tbody>
