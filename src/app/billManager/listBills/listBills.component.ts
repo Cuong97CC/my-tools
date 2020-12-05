@@ -3,8 +3,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BillsService } from '../shared/services/bills.service';
+import { Bill } from '../../../classes/Bill';
 import { tags } from '../../../environments/environment';
-import * as moment from 'moment';
 
 declare var bootbox :any;
 
@@ -17,10 +17,6 @@ export class ListBillsComponent implements OnInit {
   modalRef: BsModalRef;
   token: String;
   currentUser: any;
-  tag: String;
-  details: String = "";
-  cost: Number;
-  date: Date = new Date();
   from_time: Date = new Date();
   to_time: Date = new Date();
   tag_filter: String = "";
@@ -28,10 +24,10 @@ export class ListBillsComponent implements OnInit {
   maxDate: Date;
   bsConfig: any;
   message: String;
-  bills: any;
+  bills: Bill[];
+  new_bill: Bill;
   suggest_details: any = [];
   suggest_cost: any = [];
-  total_cost = 0;
   tags: any;
   processing = false;
   min_cost: Number;
@@ -58,18 +54,16 @@ export class ListBillsComponent implements OnInit {
     if (this.route.queryParams['_value']['to_time']) this.to_time = new Date(this.route.queryParams['_value']['to_time']);
     else this.to_time = new Date();
     this.maxDate = new Date();
+    this.initBillForm();
     this.filter();
   }
 
   initBillForm() {
-    this.tag = "";
-    this.details = "";
-    this.cost = 0;
-    this.date = new Date();
+    this.new_bill = new Bill({date: new Date()});
   }
 
   initSuggestion() {
-    switch (this.tag) {
+    switch (this.new_bill.tag) {
       case 'Đi lại':
         this.suggest_cost = [7000, 40000, 50000];
         this.suggest_details = ["Về quê", "Lên HN", "Đổ xăng", "Gửi xe"];
@@ -87,8 +81,8 @@ export class ListBillsComponent implements OnInit {
         this.suggest_details = ["Quần áo", "Bàn chải"];
         break;
       case 'Thú cưng':
-        this.suggest_cost = [];
-        this.suggest_details = ["Hạt", "Cát", "Đồ chơi"];
+        this.suggest_cost = [90000];
+        this.suggest_details = ["Hạt", "Cát", "Đồ chơi", "Pate"];
         break;
       case 'Game':
         this.suggest_cost = [];
@@ -116,15 +110,11 @@ export class ListBillsComponent implements OnInit {
 
   createBill() {
     if (this.currentUser && !this.processing) {
-      if (this.tag && this.cost && this.date) {
+      if (this.new_bill.tag && this.new_bill.cost && this.new_bill.date) {
         // Temporary fix timezone bug in server
-        var date = this.setTimeInHour(this.date, 11, 0, 0);
-        let data = {
-          tag: this.tag,
-          details: this.details,
-          cost: this.cost,
-          time: date
-        }
+        let data:any = this.new_bill.submit_data;
+        var date = this.setTimeInHour(this.new_bill.date, 11, 0, 0);
+        data.time = date;
         this.processing = true;
         this.billsService.createBill(data, this.token).subscribe(res => {
           if (res.code == 1) {
@@ -133,10 +123,8 @@ export class ListBillsComponent implements OnInit {
             this.initBillForm();
             let time = new Date(res.data.new_bill.time);
             if (time >= this.from_time && time <= this.to_time) {
-              res.data.new_bill.time = moment(new Date(time)).format("DD/MM/YYYY");
               if (!this.bills) this.bills = [];
-              this.bills.push(res.data.new_bill);
-              this.total_cost += res.data.new_bill.cost;
+              this.bills.push(new Bill(res.data.new_bill));
             }
           } else {
             this.toastr.error(res.message);
@@ -156,16 +144,15 @@ export class ListBillsComponent implements OnInit {
     var to_time = this.setTimeInHour(this.to_time, 23, 59, 59);
     this.billsService.getBills(this.tag_filter, from_time, to_time, this.min_cost || "", this.max_cost || "", this.keyword, this.token).subscribe(res => {
       if (res.code == 1) {
-        this.bills = res.data.bills;
-        this.total_cost = 0;
-        if (this.bills.length > 0) {
-          this.bills.forEach(bill => {
-            bill.time = moment(new Date(bill.time)).format("DD/MM/YYYY");
-            this.total_cost += bill.cost;
-          });
-        }
+        this.bills = res.data.bills.map(val => new Bill(val));
       } else this.toastr.error(res.message);
     });
+  }
+
+  get total_cost() {
+    return (this.bills || []).reduce((acc, cur) => {
+      return acc + cur._cost;
+    }, 0);
   }
 
   confirmDeleteBill(id) {
@@ -194,7 +181,6 @@ export class ListBillsComponent implements OnInit {
       if (res.code == 1) {
         let index = this.bills.findIndex(val => val._id == id);
         if (index > -1) {
-          this.total_cost -= this.bills[index].cost;
           this.bills.splice(index, 1);
         }
         this.toastr.success(res.message);

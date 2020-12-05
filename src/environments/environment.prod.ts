@@ -2,7 +2,7 @@ export const environment = {
   production: true
 };
 
-export const apiUrl: string = "https://my-tools-server.herokuapp.com";
+export const apiUrl: string = "https://api-mytool.cuongln.com";
 export const internetConnection = navigator.onLine;
 export const hostName: string = getHostName();
 export const tags = ['Đi lại', 'Ăn uống', 'Nhà ở', 'Đồ dùng', 'Thú cưng', 'Game', 'Khác'];
