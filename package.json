@@ -28,7 +28,7 @@
     "font-awesome": "^4.7.0",
     "highcharts": "^7.2.1",
     "jquery": ">=3.4.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "ng-open-cv": "^0.2.1",
     "ngx-bootstrap": "^3.3.0",
     "ngx-monaco-editor": "^6.0.0",
